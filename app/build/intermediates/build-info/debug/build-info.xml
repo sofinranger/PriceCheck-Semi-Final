@@ -2,33 +2,85 @@
 <instant-run
     abi="armeabi-v7a,armeabi"
     api-level="21"
-    build-mode="COLD"
+    build-mode="FULL"
     density="xxhdpi"
     format="10"
     plugin-version="3.0.1"
-    timestamp="1513668435694"
+    timestamp="1513755558501"
     token="-6051217046560970327"
-    verifier="COLD_SWAP_REQUESTED" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="356" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="22" />
     <task
         name="verifier"
-        duration="0" />
+        duration="15" />
+
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\outputs\apk\debug\app-debug.apk"
+        type="SPLIT_MAIN" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+        type="SPLIT" />
 
     <build
         build-mode="FULL"
-        timestamp="1513668084601"
+        timestamp="1513755558501"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
+            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            type="SPLIT" />
+        <artifact
+            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+            type="SPLIT" />
+        <artifact
+            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+            type="SPLIT" />
+        <artifact
             location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+            type="SPLIT" />
+        <artifact
+            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+            type="SPLIT" />
+        <artifact
+            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
             type="SPLIT" />
         <artifact
             location="D:\ANDROID PROJECT\PriceCheck\app\build\outputs\apk\debug\app-debug.apk"
@@ -40,45 +92,14 @@
             location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
             type="SPLIT" />
         <artifact
-            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
-            type="SPLIT" />
-        <artifact
             location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
             type="SPLIT" />
         <artifact
             location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
-            type="SPLIT" />
-        <artifact
             location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
             type="SPLIT" />
     </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="COMPATIBLE"
-        timestamp="1513668162214"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="D:\ANDROID PROJECT\PriceCheck\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\ANDROID PROJECT\PriceCheck\app\build\outputs\apk\debug\app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        timestamp="1513668435694"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

@@ -2,7 +2,8 @@
     <string name="app_name">PRICE CHECKING</string>
     <string name="str_text1">KODE BARCODE</string>
     <string name="str_text2">NAMA BARANG</string>
-    <string name="str_text3">HARGA JUAL</string>
+    <string name="str_text3">BERAT</string>
+    <string name="str_text4">HARGA JUAL</string>
     <string name="str_button1">CARI</string>
     <string name="str_button2">SCAN</string>
 </resources>
