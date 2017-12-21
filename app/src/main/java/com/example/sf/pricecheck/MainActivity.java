@@ -1,39 +1,39 @@
 package com.example.sf.pricecheck;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import google.zxing.integration.android.IntentIntegrator;
 import google.zxing.integration.android.IntentResult;
 
-public class MainActivity extends Activity implements View.OnClickListener {
-//    Context context = this;
-//    Button PesanOK;
+public class MainActivity extends AppCompatActivity {
 
-    private Button scanBtn;
-    private TextView  contentTxt;
+    EditText TxtBarcode;
+    SocketClient sckClient = new SocketClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scanBtn = (Button)findViewById(R.id.BtnScan);
-        contentTxt = (TextView)findViewById(R.id.TxtKode);
+        Connect(null);
 
-        scanBtn.setOnClickListener(this);
+        TxtBarcode = (EditText) findViewById(R.id.TxtKode);
     }
 
-
-    public void onClick(View v) {
-        if(v.getId()==R.id.BtnScan){
+    //    ======== KODING BARCODE ===============================================================================================
+    public void scanBarcode(View v) {
+        if (v.getId() == R.id.bScan) {
             //scan
             IntentIntegrator scanIntegrator = new IntentIntegrator(this);
             scanIntegrator.initiateScan();
@@ -46,43 +46,63 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (scanningResult != null) {
             //we have a result
             String scanContent = scanningResult.getContents();
-            String scanFormat = scanningResult.getFormatName();
 
-            contentTxt.setText(scanContent);
+            TxtBarcode.setText(scanContent);
+            sckClient.Send(scanContent);
+
+//            if (TxtBarcode != null) {
+//                MainActivity Kirim = new MainActivity();
+//                Kirim.Send(TxtBarcode);
+//            }
+
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
+//    ======== END KONDING BARCODE ==========================================================================================
 
-    //        // =========================MODULE PESAN OK SAJA
-//        PesanOK = (Button) findViewById(R.id.BtnCari);
-//        PesanOK.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setTitle(Constants.JUDUL_PESAN);
-//                builder.setMessage(Constants.PESAN_1);
+    //    ======== KODING SOCKET ===============================================================================================
+    public void Connect(View view) {
+        Log.d("MAIN", "" + Integer.parseInt(VarNa.PORT_SERVER.toString()));
+        sckClient.Connect(VarNa.IP_SERVER.toString(), Integer.parseInt(VarNa.PORT_SERVER.toString()));
+    }
 
-//                // Membuat tombol negativ
-//                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                });
-//                //Membuat tombol positif
-//                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // Bila pilih ok, maka muncul toast
-//                        Toast.makeText(getApplicationContext(), "OK", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                builder.show();
-//            }
-//        });
-//        // =========================END MODULE PESAN OK SAJA
+    public void Send(View view) {
+        sckClient.Send(TxtBarcode.getText().toString());
+
+    }
+
+    class MyServerThread implements Runnable {
+        InputStreamReader isr;
+        BufferedReader br;
+
+        String strMessage;
+        Handler h = new Handler();
+
+        @Override
+        public void run() {
+            Log.d("MAIN", "Terima Data OK.1");
+            try {
+                Log.d("MAIN", "Terima Data OK.");
+                while (sckClient.sckClient.isConnected()) {
+                    Log.d("MAIN", "Terima Data OK.!!!");
+                    isr = new InputStreamReader(sckClient.sckClient.getInputStream());
+                    br = new BufferedReader(isr);
+                    strMessage = br.readLine();
+                    h.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                Log.d("MAIN", "Error Terima Message : " + e.toString());
+            }
+        }
+    }
+    //    ======== END KONDING SOCKET ==========================================================================================
 
 }
