@@ -106,8 +106,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignStart="@+id/TxtHarga"
-        android:layout_below="@+id/TxtHarga"
-        app:srcCompat="@mipmap/ic_launcher" />
+        android:layout_below="@+id/TxtHarga" />
 
 
 </RelativeLayout>

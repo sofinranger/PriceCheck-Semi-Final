@@ -12,13 +12,16 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import google.zxing.integration.android.IntentIntegrator;
 import google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText TxtBarcode;
+    EditText TBarcode;
+    EditText TNama;
     SocketClient sckClient = new SocketClient();
 
     @Override
@@ -28,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         Connect(null);
 
-        TxtBarcode = (EditText) findViewById(R.id.TxtKode);
+        TBarcode = (EditText) findViewById(R.id.TxtKode);
+        TNama = (EditText) findViewById(R.id.TxtNama);
     }
 
     //    ======== KODING BARCODE ===============================================================================================
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             //we have a result
             String scanContent = scanningResult.getContents();
 
-            TxtBarcode.setText(scanContent);
+            TBarcode.setText(scanContent);
             sckClient.Send(scanContent);
 
 //            if (TxtBarcode != null) {
@@ -65,41 +69,51 @@ public class MainActivity extends AppCompatActivity {
 
     //    ======== KODING SOCKET ===============================================================================================
     public void Connect(View view) {
-        Log.d("MAIN", "" + Integer.parseInt(VarNa.PORT_SERVER.toString()));
-        sckClient.Connect(VarNa.IP_SERVER.toString(), Integer.parseInt(VarNa.PORT_SERVER.toString()));
+        Log.d("MAIN", "" + Integer.parseInt(VarNa.PORT_CONNECT.toString()));
+        sckClient.Connect(VarNa.IP_SERVER.toString(), Integer.parseInt(VarNa.PORT_CONNECT.toString()));
     }
 
     public void Send(View view) {
-        sckClient.Send(TxtBarcode.getText().toString());
+        sckClient.Send(TBarcode.getText().toString());
 
     }
 
     class MyServerThread implements Runnable {
+        Socket s;
+        ServerSocket ss;
         InputStreamReader isr;
-        BufferedReader br;
-
-        String strMessage;
+        BufferedReader bufferedReader;
         Handler h = new Handler();
+
+        String message;
+        int X = 0;
 
         @Override
         public void run() {
-            Log.d("MAIN", "Terima Data OK.1");
             try {
-                Log.d("MAIN", "Terima Data OK.");
-                while (sckClient.sckClient.isConnected()) {
-                    Log.d("MAIN", "Terima Data OK.!!!");
-                    isr = new InputStreamReader(sckClient.sckClient.getInputStream());
-                    br = new BufferedReader(isr);
-                    strMessage = br.readLine();
+                ss = new ServerSocket(1124);
+                while (true){
+                    s = ss.accept();
+                    while (!s.isConnected()){
+                        String strLoop;
+                        X = X +1;
+                        strLoop = String.valueOf(X);
+                        Log.d("RECEIVE", "LOOP " + strLoop);
+                    }
+                    isr = new InputStreamReader(s.getInputStream());
+                    bufferedReader = new BufferedReader(isr);
+                    message = bufferedReader.readLine();
+
                     h.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+                            TNama.setText(message);
                         }
                     });
                 }
-            } catch (Exception e) {
-                Log.d("MAIN", "Error Terima Message : " + e.toString());
+            }catch (Exception e){
+
             }
         }
     }

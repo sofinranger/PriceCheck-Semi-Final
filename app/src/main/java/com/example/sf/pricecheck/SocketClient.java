@@ -6,6 +6,7 @@ package com.example.sf.pricecheck;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -19,62 +20,77 @@ public class SocketClient {
     public String TAG = "SocketClient";
 
     public Socket sckClient;
-    private String serverIp = "192.168.3.15";
-    private int serverPort = 1010;
+    private String serverIp = "192.168.2.11";
+    private int serverPort = 1024;
 
     private String strData;
 
     private long startTime = 01;
 
-    public void Connect(String ip, int port) {
+    boolean receiveThreadRunning = false;
+    private Thread receiveThread;
+
+    public boolean isConnected() {
+        return sckClient != null && sckClient.isConnected() && !sckClient.isClosed();
+    }
+
+    public void Connect(String ip, int port){
         serverIp = ip;
         serverPort = port;
         new Thread(new ConnectRunnable()).start();
     }
 
-    public void Send(String string) {
-        strData = string;
-        new Thread(new SendRunnable()).start();
+    public void Disconnect() {
+        stopThreads();
+
+        try {
+            sckClient.close();
+            Log.d(TAG,"Disconnected!");
+        } catch (IOException e) { }
+
     }
 
-    public class ConnectRunnable implements Runnable {
+    private void stopThreads() {
+        if (receiveThread != null)
+            receiveThread.interrupt();
+    }
 
-        public void run() {
+    public class ConnectRunnable implements Runnable{
+
+        public void run(){
             try {
                 Log.d(TAG, "Connecting to Server.");
                 InetAddress serverAddress = InetAddress.getByName(serverIp);
                 startTime = System.currentTimeMillis();
 
                 sckClient = new Socket();
-                sckClient.connect(new InetSocketAddress(serverAddress, serverPort), 5000);
+                sckClient.connect(new InetSocketAddress(serverAddress,serverPort),5000);
 
                 long time = System.currentTimeMillis() - startTime;
-                Log.d(TAG, "Connected! Current duration: " + time + "ms");
-            } catch (Exception e) {
-                Log.d(TAG, "Error Connect : " + e.toString());
+                Log.d(TAG,"Connected! Current duration: " + time + "ms");
+            }catch (Exception e){
+                Log.d(TAG,"Error Connect : " + e.toString());
             }
         }
     }
 
-    public class SendRunnable implements Runnable {
+    public void Send(String string){
+        strData = string;
+        new Thread(new SendRunnable()).start();
+    }
+
+    public class SendRunnable implements Runnable{
         PrintWriter pw;
 
-        public void run() {
+        public void run(){
             try {
-                Log.d(TAG, "Send Message : " + strData);
+                Log.d(TAG,"Send Message : " + strData);
                 pw = new PrintWriter(sckClient.getOutputStream());
                 pw.write(strData);
                 pw.flush();
-            } catch (Exception e) {
+            }catch (Exception e){
                 Log.d(TAG, "Error Kirim : " + e.toString());
             }
-        }
-    }
-
-    public class ReceiveRunnable implements Runnable {
-
-        public void run() {
-
         }
     }
 }
