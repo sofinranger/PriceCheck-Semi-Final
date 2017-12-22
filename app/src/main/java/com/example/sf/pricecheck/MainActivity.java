@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     EditText TNama;
     SocketClient sckClient = new SocketClient();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,26 @@ public class MainActivity extends AppCompatActivity {
 
         TBarcode = (EditText) findViewById(R.id.TxtKode);
         TNama = (EditText) findViewById(R.id.TxtNama);
+
+        Thread myThread = new Thread(new MyServerThread());
+        myThread.start();
+
+
+        TBarcode.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    //Toast.makeText(getApplicationContext(),TBarcode.getText().toString(),Toast.LENGTH_SHORT).show();
+                if (TBarcode.getText().toString() != null) {
+                    sckClient.Send(TBarcode.getText().toString());
+                }
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     //    ======== KODING BARCODE ===============================================================================================
@@ -91,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                ss = new ServerSocket(1124);
+                ss = new ServerSocket(Integer.parseInt(VarNa.PORT_SEND.toString()));
                 while (true){
                     s = ss.accept();
                     while (!s.isConnected()){

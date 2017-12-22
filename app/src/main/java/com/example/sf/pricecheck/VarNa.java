@@ -5,7 +5,7 @@ package com.example.sf.pricecheck;
  */
 
 public class VarNa {
-    public static final String IP_SERVER = "192.168.2.11";
+    public static final String IP_SERVER = "192.168.3.15";
     public static final String PORT_CONNECT = "1024";
     public static final String PORT_SEND = "1124";
 }
