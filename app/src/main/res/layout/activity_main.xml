@@ -104,7 +104,7 @@
     <!--android:src="@drawable/rakun"-->
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ImgFoto"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignStart="@+id/TxtHarga"
@@ -117,6 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/TxtNama"
         android:layout_toEndOf="@+id/TxtNama"
+        android:onClick="ShowFoto"
         android:text="Test Image" />
 
 

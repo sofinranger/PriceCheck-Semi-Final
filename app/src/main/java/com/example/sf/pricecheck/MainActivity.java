@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,10 +26,11 @@ import google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends AppCompatActivity {
 
+    SocketClient sckClient = new SocketClient();
     EditText TBarcode;
     EditText TNama;
-    SocketClient sckClient = new SocketClient();
-
+    ImageView TFoto;
+    String url = "http://i1192.photobucket.com/albums/aa339/henriekegansevoort/SAM_5012.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         TBarcode = (EditText) findViewById(R.id.TxtKode);
         TNama = (EditText) findViewById(R.id.TxtNama);
+        TFoto = (ImageView) findViewById((R.id.ImgFoto));
 
         Thread myThread = new Thread(new MyServerThread());
         myThread.start();
@@ -57,6 +62,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void loadImageFromUrl(String url) {
+        Picasso.with(this).load(url).placeholder(R.mipmap.ic_launcher)
+        .error(R.mipmap.ic_launcher)
+                .into(TFoto,new com.squareup.picasso.Callback(){
+
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+
+    }
+
+    public void ShowFoto(View v){
+        loadImageFromUrl (url);
     }
 
     //    ======== KODING BARCODE ===============================================================================================
